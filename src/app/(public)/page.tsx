@@ -1,28 +1,29 @@
-import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
-import type { Subject } from '@/types'
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import type { Subject } from "@/types";
+import Footer from "@/components/clientes/Footer";
 
 const SUBJECT_ICONS: Record<string, string> = {
-  'estructura-atomica': '⚛️',
-  'enlace-quimico': '🔗',
-  'materia-transformaciones': '🧪',
-  'termoquimica': '🌡️',
-  'cinetica-quimica': '⚡',
-  'equilibrio-quimico': '⚖️',
-  'reacciones-precipitacion': '💧',
-  'reacciones-acido-base': '🧫',
-  'reacciones-redox': '⚡',
-  'quimica-organica': '🧬',
-}
+  "estructura-atomica": "⚛️",
+  "enlace-quimico": "🔗",
+  "materia-transformaciones": "🧪",
+  termoquimica: "🌡️",
+  "cinetica-quimica": "⚡",
+  "equilibrio-quimico": "⚖️",
+  "reacciones-precipitacion": "💧",
+  "reacciones-acido-base": "🧫",
+  "reacciones-redox": "⚡",
+  "quimica-organica": "🧬",
+};
 
-export const revalidate = 3600 // revalidar cada hora
+export const revalidate = 3600; // revalidar cada hora
 
 export default async function HomePage() {
-  const supabase = createClient()
+  const supabase = createClient();
   const { data: subjects } = await supabase
-    .from('subjects')
-    .select('*')
-    .order('order_index')
+    .from("subjects")
+    .select("*")
+    .order("order_index");
 
   return (
     <div>
@@ -47,17 +48,21 @@ export default async function HomePage() {
               className="group flex items-start gap-4 p-5 border border-border rounded-xl bg-white hover:border-accent hover:shadow-sm transition-all"
             >
               <span className="text-2xl mt-0.5 shrink-0">
-                {SUBJECT_ICONS[subject.slug] ?? '📖'}
+                {SUBJECT_ICONS[subject.slug] ?? "📖"}
               </span>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-muted">T{String(i + 1).padStart(2, '0')}</span>
+                  <span className="text-xs font-mono text-muted">
+                    T{String(i + 1).padStart(2, "0")}
+                  </span>
                 </div>
                 <h2 className="font-medium text-ink group-hover:text-accent transition-colors leading-snug">
                   {subject.title}
                 </h2>
                 {subject.description && (
-                  <p className="text-sm text-muted mt-1 line-clamp-2">{subject.description}</p>
+                  <p className="text-sm text-muted mt-1 line-clamp-2">
+                    {subject.description}
+                  </p>
                 )}
               </div>
             </Link>
@@ -67,9 +72,11 @@ export default async function HomePage() {
         <div className="text-center py-20 text-muted">
           <p className="text-4xl mb-4">📚</p>
           <p className="font-medium">El contenido estará disponible pronto</p>
-          <p className="text-sm mt-1">El profesor está preparando los apuntes</p>
+          <p className="text-sm mt-1">
+            El profesor está preparando los apuntes
+          </p>
         </div>
       )}
     </div>
-  )
+  );
 }
