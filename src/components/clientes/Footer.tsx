@@ -58,7 +58,8 @@ export default function Footer() {
                 href="mailto:contacto@tuproyecto.com"
                 className="text-sm text-ink hover:text-accent transition-colors flex items-center gap-2"
               >
-                <span className="opacity-70">✉️</span> contacto@tuproyecto.com
+                <span className="opacity-70">✉️</span>{" "}
+                contacto.mrclases@gmail.com
               </a>
             </div>
           </div>
