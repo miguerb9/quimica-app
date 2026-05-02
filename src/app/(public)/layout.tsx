@@ -20,88 +20,63 @@ async function Navbar() {
   }
 
   return (
-    <header
-      style={{
-        borderBottom: "1px solid rgba(30,60,90,0.12)",
-        background: "rgba(250,248,242,0.94)",
-        backdropFilter: "blur(12px)",
-        position: "sticky",
-        top: 0,
-        zIndex: 10,
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 24px",
-          height: "64px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link
-          href="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            textDecoration: "none",
-          }}
-        >
-          <Image
-            src="/img/logo.png"
-            alt="MrClases Logo"
-            width={44}
-            height={44}
-            style={{ objectFit: "contain" }}
-            priority
-          />
-          <span
-            style={{
-              fontSize: "18px",
-              fontWeight: 700,
-              fontFamily: "Georgia, serif",
-              color: "#1a2e44",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            MR<span style={{ color: "#2563eb" }}>clases</span>
-          </span>
-        </Link>
-
-        <nav style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+    <header className="border-b border-slate-200/80 bg-[#faf8f2]/94 backdrop-blur-md sticky top-0 z-10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        {/* Fila principal */}
+        <div className="h-16 flex items-center justify-between gap-4">
+          {/* Logo */}
           <Link
             href="/"
-            style={{
-              color: "#64748b",
-              textDecoration: "none",
-              fontSize: "14px",
-              fontWeight: 500,
-            }}
+            className="flex items-center gap-2 shrink-0 no-underline"
           >
-            Inicio
-          </Link>
-          {isAdmin && (
-            <Link
-              href="/admin"
-              style={{
-                background: "#2563eb",
-                color: "white",
-                padding: "6px 16px",
-                borderRadius: "8px",
-                textDecoration: "none",
-                fontSize: "13px",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase" as const,
-              }}
+            <Image
+              src="/img/logo.png"
+              alt="MrClases Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+              priority
+            />
+            <span
+              className="text-[17px] font-bold text-[#1a2e44]"
+              style={{ fontFamily: "Georgia,serif" }}
             >
-              Admin
+              MR<span className="text-blue-600">clases</span>
+            </span>
+          </Link>
+
+          {/* Nav — oculto en móvil muy pequeño, visible en sm+ */}
+          <nav className="flex items-center gap-1 sm:gap-2">
+            <Link
+              href="/"
+              className="hidden sm:block text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium px-3 py-2 rounded-lg"
+            >
+              Inicio
             </Link>
-          )}
-        </nav>
+            <Link
+              href="/sobre-mi"
+              className="text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium px-2 sm:px-3 py-2 rounded-lg whitespace-nowrap"
+            >
+              <span className="hidden sm:inline">Quiénes somos</span>
+              <span className="sm:hidden">Nosotros</span>
+            </Link>
+            <Link
+              href="/clases"
+              className="bg-blue-600 hover:bg-blue-700 text-white transition-colors text-sm font-semibold px-3 sm:px-4 py-2 rounded-lg whitespace-nowrap"
+            >
+              <span className="hidden sm:inline">Clases online</span>
+              <span className="sm:hidden">Clases</span>
+            </Link>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="bg-[#0f1f3d] text-white text-xs font-bold px-3 py-2 rounded-lg tracking-wider uppercase"
+              >
+                Admin
+              </Link>
+            )}
+          </nav>
+        </div>
       </div>
     </header>
   );
@@ -114,25 +89,14 @@ export default function PublicLayout({
 }) {
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column" as const,
-        background: "#faf8f2",
-        position: "relative",
-        overflow: "hidden",
-      }}
+      className="min-h-screen flex flex-col relative overflow-hidden"
+      style={{ background: "#faf8f2" }}
     >
       {/* Science SVG background */}
       <div
         aria-hidden="true"
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-          opacity: 0.06,
-        }}
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{ opacity: 0.06 }}
       >
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -144,7 +108,6 @@ export default function PublicLayout({
               height="440"
               patternUnits="userSpaceOnUse"
             >
-              {/* Erlenmeyer flask */}
               <g
                 transform="translate(30,20)"
                 fill="none"
@@ -160,8 +123,6 @@ export default function PublicLayout({
                 <circle cx="22" cy="47" r="1" fill="#1a3a6e" />
                 <circle cx="29" cy="43" r="1.2" fill="#1a3a6e" />
               </g>
-
-              {/* H2O molecule */}
               <g
                 transform="translate(190,25)"
                 fill="none"
@@ -204,8 +165,6 @@ export default function PublicLayout({
                   H
                 </text>
               </g>
-
-              {/* Atom orbits */}
               <g
                 transform="translate(330,10)"
                 fill="none"
@@ -229,8 +188,6 @@ export default function PublicLayout({
                   transform="rotate(120 35 35)"
                 />
               </g>
-
-              {/* Test tube */}
               <g
                 transform="translate(100,195)"
                 fill="none"
@@ -242,8 +199,6 @@ export default function PublicLayout({
                 <line x1="10" y1="4" x2="26" y2="4" />
                 <line x1="8" y1="8" x2="28" y2="8" />
               </g>
-
-              {/* Benzene ring */}
               <g
                 transform="translate(275,165)"
                 fill="none"
@@ -256,8 +211,6 @@ export default function PublicLayout({
                   strokeDasharray="4 2"
                 />
               </g>
-
-              {/* Formulas */}
               <text
                 x="355"
                 y="255"
@@ -312,8 +265,6 @@ export default function PublicLayout({
               >
                 n = m/M
               </text>
-
-              {/* Round-bottom flask */}
               <g
                 transform="translate(345,275)"
                 fill="none"
@@ -328,8 +279,6 @@ export default function PublicLayout({
                 <circle cx="20" cy="38" r="1" fill="#1a3a6e" />
                 <circle cx="27" cy="33" r="1.3" fill="#1a3a6e" />
               </g>
-
-              {/* DNA double helix */}
               <g
                 transform="translate(195,270)"
                 fill="none"
@@ -345,8 +294,6 @@ export default function PublicLayout({
                 <line x1="10" y1="90" x2="30" y2="90" strokeDasharray="2 2" />
                 <line x1="10" y1="110" x2="30" y2="110" strokeDasharray="2 2" />
               </g>
-
-              {/* Microscope */}
               <g
                 transform="translate(48,308)"
                 fill="none"
@@ -369,17 +316,7 @@ export default function PublicLayout({
       </div>
 
       <Navbar />
-      <main
-        style={{
-          flex: 1,
-          maxWidth: "1200px",
-          margin: "0 auto",
-          width: "100%",
-          padding: "48px 24px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      <main className="flex-1 max-w-[1200px] mx-auto w-full px-4 sm:px-6 py-8 sm:py-12 relative z-1">
         {children}
       </main>
       <Footer />
