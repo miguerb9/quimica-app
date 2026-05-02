@@ -67,7 +67,7 @@ export default function Footer() {
         {/* Línea inferior de copyright */}
         <div className="mt-12 pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted">
-            © {currentYear} ©MRclases — Material de uso académico.
+            © {currentYear} MRclases — Material de uso académico.
           </p>
           <div className="flex items-center gap-1 text-xs text-muted">
             Hecho con <span className="text-red-400">❤️</span> para estudiantes
