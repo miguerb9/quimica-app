@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Note, Exercise } from "@/types";
 
+
 export const revalidate = 3600;
 
 interface Props {
