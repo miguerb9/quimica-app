@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,17 +9,15 @@ export default function Footer() {
       <div className="max-w-screen-xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Columna 1: Branding */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🧪</span>
-              <span className="font-display font-bold text-ink">
-                Química 2º Bach
-              </span>
-            </div>
-            <p className="text-sm text-muted leading-relaxed max-w-xs">
-              Recursos educativos gratuitos para preparar la EBAU. Apuntes
-              detallados, ejercicios resueltos y guías de estudio.
-            </p>
+          <div className="flex items-center gap-2 mb-4">
+            <Image
+              src="/img/logo.png"
+              alt="Logo"
+              width={30}
+              height={30}
+              className="object-contain"
+            />
+            <span className="text-lg font-bold">MRclases</span>
           </div>
 
           {/* Columna 2: Enlaces rápidos */}
@@ -55,7 +54,7 @@ export default function Footer() {
             </h3>
             <div className="flex flex-col gap-2">
               <a
-                href="mailto:contacto@tuproyecto.com"
+                href="mailto: contacto.mrclases@gmail.com"
                 className="text-sm text-ink hover:text-accent transition-colors flex items-center gap-2"
               >
                 <span className="opacity-70">✉️</span>{" "}
@@ -68,7 +67,7 @@ export default function Footer() {
         {/* Línea inferior de copyright */}
         <div className="mt-12 pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted">
-            © {currentYear} Química 2º Bachillerato — Material de uso académico.
+            © {currentYear} ©MRclases — Material de uso académico.
           </p>
           <div className="flex items-center gap-1 text-xs text-muted">
             Hecho con <span className="text-red-400">❤️</span> para estudiantes

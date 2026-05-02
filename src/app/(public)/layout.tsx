@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import Footer from "@/components/clientes/Footer";
 
@@ -22,10 +23,17 @@ async function Navbar() {
     <header className="border-b border-border bg-paper sticky top-0 z-10">
       <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
+          <Image
+            src="/img/logo.png"
+            alt="MrClases Logo"
+            width={55}
+            height={55}
+            className="object-contain"
+            priority
+          />
           <span className="text-lg font-display font-semibold tracking-tight">
-            ⚗️{" "}
             <span className="text-ink group-hover:text-accent transition-colors">
-              Química 2º Bach
+              MR<span className="text-accent">clases</span>
             </span>
           </span>
         </Link>
