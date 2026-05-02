@@ -51,7 +51,7 @@ export default function ClasesPage() {
           <div
             key={item.label}
             style={{
-              flex: "1 1 200px", // Esto hace que sea responsive automáticamente
+              flex: "1 1 200px",
               padding: "24px",
               background: "#f8fafc",
               border: "1px solid #e2e8f0",
@@ -168,6 +168,7 @@ export default function ClasesPage() {
             padding: "40px",
             color: "white",
             textAlign: "center",
+            overflow: "hidden",
           }}
         >
           <p
@@ -181,7 +182,7 @@ export default function ClasesPage() {
           >
             Contacto Directo
           </p>
-          <a
+          
             href="mailto:contacto.mrclases@gmail.com?subject=Consulta%20sobre%20clases%20online"
             style={{
               display: "inline-block",
@@ -194,6 +195,8 @@ export default function ClasesPage() {
               borderRadius: "8px",
               marginBottom: "20px",
               fontFamily: "system-ui, sans-serif",
+              wordBreak: "break-all",
+              maxWidth: "100%",
             }}
           >
             ✉️ contacto.mrclases@gmail.com
