@@ -3,7 +3,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Note, Exercise } from "@/types";
 
-
 export const revalidate = 3600;
 
 interface Props {
@@ -62,7 +61,7 @@ export default async function SubjectPage({ params }: Props) {
         </span>
       </div>
 
-      {/* Notes */}
+      {/* Seccion de Apuntes */}
       {notes && notes.length > 0 && (
         <section className="mb-10">
           <h2 className="text-xl font-display font-semibold mb-4 flex items-center gap-2">
@@ -74,6 +73,7 @@ export default async function SubjectPage({ params }: Props) {
                 key={note.id}
                 className="flex items-center justify-between bg-white hover:bg-paper-dark transition-colors group border-0"
               >
+                {/* Corregido: Ahora navega a la página de detalle interna */}
                 <Link
                   href={`/subjects/${subject.slug}/notes/${note.id}`}
                   className="flex-1 flex items-center gap-2 px-5 py-4"
@@ -87,7 +87,7 @@ export default async function SubjectPage({ params }: Props) {
                     </span>
                   )}
                 </Link>
-                {note.pdf_url ? (
+                {note.pdf_url && (
                   <a
                     href={note.pdf_url}
                     download
@@ -96,13 +96,6 @@ export default async function SubjectPage({ params }: Props) {
                   >
                     ⬇️
                   </a>
-                ) : (
-                  <Link
-                    href={`/subjects/${subject.slug}/notes/${note.id}`}
-                    className="px-5 py-4 text-muted text-sm"
-                  >
-                    →
-                  </Link>
                 )}
               </div>
             ))}
@@ -110,46 +103,50 @@ export default async function SubjectPage({ params }: Props) {
         </section>
       )}
 
-      {/* Exercises */}
+      {/* Sección de Ejercicios — Corregida para navegación interna */}
       {exercises && exercises.length > 0 && (
         <section>
           <h2 className="text-xl font-display font-semibold mb-4 flex items-center gap-2">
             <span>✏️</span> Ejercicios
           </h2>
-          <div className="space-y-4">
-            {exercises.map((ex: Exercise, i: number) => (
+          <div className="divide-y divide-border border border-border rounded-xl overflow-hidden">
+            {exercises.map((ejercicio: Exercise) => (
               <div
-                key={ex.id}
-                className="border border-border rounded-xl p-5 bg-white"
+                key={ejercicio.id}
+                className="flex items-center justify-between bg-white hover:bg-paper-dark transition-colors group border-0"
               >
-                <div className="flex items-start gap-3">
-                  <span className="font-mono text-sm text-muted shrink-0 mt-0.5">
-                    #{i + 1}
+                {/* IMPORTANTE: Ahora usamos Link hacia la carpeta [id] que creamos */}
+                <Link
+                  href={`/subjects/${subject.slug}/exercises/${ejercicio.id}`}
+                  className="flex-1 flex items-center gap-2 px-5 py-4"
+                >
+                  <span className="font-medium group-hover:text-accent transition-colors">
+                    {ejercicio.title}
                   </span>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium mb-2">{ex.title}</h3>
-                    <div
-                      className="prose text-sm text-ink/80"
-                      dangerouslySetInnerHTML={{ __html: ex.statement }}
-                    />
-                    {ex.show_solution && ex.solution && (
-                      <details className="mt-4">
-                        <summary className="text-sm font-medium text-accent cursor-pointer hover:underline">
-                          Ver solución
-                        </summary>
-                        <div
-                          className="prose text-sm mt-3 p-4 bg-paper-dark rounded-lg"
-                          dangerouslySetInnerHTML={{ __html: ex.solution }}
-                        />
-                      </details>
-                    )}
-                    {!ex.show_solution && (
-                      <p className="mt-3 text-xs text-muted italic">
-                        La solución no está disponible aún
-                      </p>
-                    )}
-                  </div>
-                </div>
+                  {ejercicio.pdf_url && (
+                    <span className="text-xs bg-accent-light text-accent px-1.5 py-0.5 rounded font-medium">
+                      PDF Ejercicios
+                    </span>
+                  )}
+                </Link>
+
+                {ejercicio.pdf_url ? (
+                  <a
+                    href={ejercicio.pdf_url}
+                    download
+                    className="px-4 py-4 text-muted hover:text-accent transition-colors text-sm"
+                    title="Descargar PDF de ejercicios"
+                  >
+                    ⬇️
+                  </a>
+                ) : (
+                  <Link
+                    href={`/subjects/${subject.slug}/exercises/${ejercicio.id}`}
+                    className="px-5 py-4 text-muted text-sm"
+                  >
+                    →
+                  </Link>
+                )}
               </div>
             ))}
           </div>
