@@ -5,7 +5,7 @@ export default async function NewExercisePage() {
   const supabase = createClient()
   const { data: subjects } = await supabase
     .from('subjects')
-    .select('id, title')
+    .select('id, title, asignatura')
     .order('order_index')
 
   return (

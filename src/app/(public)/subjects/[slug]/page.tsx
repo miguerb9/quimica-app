@@ -42,6 +42,13 @@ export default async function SubjectPage({ params }: Props) {
           Inicio
         </Link>
         <span>/</span>
+        <Link
+          href={`/${subject.course ?? "2bach"}`}
+          className="hover:text-ink transition-colors"
+        >
+          {subject.course === "1bach" ? "1º Bachillerato" : "2º Bachillerato"}
+        </Link>
+        <span>/</span>
         <span className="text-ink">{subject.title}</span>
       </nav>
 

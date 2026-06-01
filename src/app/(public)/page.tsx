@@ -1,34 +1,45 @@
 import Link from "next/link";
-import Image from "next/image";
-import { createClient } from "@/lib/supabase/server";
-import type { Subject } from "@/types";
-
-const SUBJECT_IMAGES: Record<string, string> = {
-  "estructura-atomica": "/img/estructura-atomica.jpg",
-  "enlace-quimico": "/img/enlace-quimico.jpg",
-  "materia-transformaciones": "/img/materia-transformaciones.jpg",
-  termoquimica: "/img/termoquimica.jpg",
-  "cinetica-quimica": "/img/cinetica-quimica.png",
-  "equilibrio-quimico": "/img/equilibrio-quimico.png",
-  "reacciones-precipitacion": "/img/reacciones-precipitacion.png",
-  "reacciones-acido-base": "/img/reacciones-acido-base.png",
-  "reacciones-redox": "/img/reacciones-redox.png",
-  "quimica-organica": "/img/quimica-organica.png",
-};
 
 export const revalidate = 3600;
 
-export default async function HomePage() {
-  const supabase = createClient();
-  const { data: subjects } = await supabase
-    .from("subjects")
-    .select("*")
-    .order("order_index");
+const COURSES = [
+  {
+    id: "1bach",
+    href: "/1bach",
+    level: "1º",
+    title: "1º Bachillerato",
+    subtitle: "Primer curso",
+    subjects: ["Matemáticas Aplicadas a las CCSS"],
+    color: "emerald",
+    emoji: "📐",
+    bg: "bg-emerald-50",
+    border: "border-emerald-200",
+    hoverBorder: "hover:border-emerald-400",
+    badge: "bg-emerald-100 text-emerald-700",
+    icon: "text-emerald-600",
+  },
+  {
+    id: "2bach",
+    href: "/2bach",
+    level: "2º",
+    title: "2º Bachillerato",
+    subtitle: "Segundo curso",
+    subjects: ["Química"],
+    color: "blue",
+    emoji: "⚗️",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+    hoverBorder: "hover:border-blue-400",
+    badge: "bg-blue-100 text-blue-700",
+    icon: "text-blue-600",
+  },
+];
 
+export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <div className="mb-8 sm:mb-12 pt-2">
+      <div className="mb-10 sm:mb-14 pt-2">
         <h1
           className="mb-3 font-bold text-[#0f1f3d] leading-tight"
           style={{
@@ -37,80 +48,59 @@ export default async function HomePage() {
             letterSpacing: "-0.02em",
           }}
         >
-          Apuntes de <span className="text-blue-600">Química</span>
+          Apuntes de <span className="text-blue-600">Bachillerato</span>
         </h1>
         <p className="text-base sm:text-lg text-slate-500">
-          2º de Bachillerato · Temario completo con ejercicios resueltos
+          Elige tu curso para ver las asignaturas disponibles
         </p>
         <div className="mt-4 sm:mt-5 h-px bg-slate-200" />
       </div>
 
-      {/* Grid: 1 col en móvil, 2 en sm+ */}
-      {subjects && subjects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {subjects.map((subject: Subject, i: number) => {
-            const imgSrc = SUBJECT_IMAGES[subject.slug];
-            return (
-              <Link
-                key={subject.id}
-                href={`/subjects/${subject.slug}`}
-                className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:border-blue-300 transition-all duration-200 no-underline"
+      {/* Course cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-2xl">
+        {COURSES.map((course) => (
+          <Link
+            key={course.id}
+            href={course.href}
+            className={`group flex flex-col rounded-2xl overflow-hidden bg-white border-2 ${course.border} ${course.hoverBorder} shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-200 no-underline`}
+          >
+            {/* Top colored band */}
+            <div className={`${course.bg} px-6 pt-8 pb-6 flex flex-col items-start gap-3`}>
+              <span
+                className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white shadow-sm text-3xl`}
               >
-                {/* Imagen: un poco menos alta en móvil */}
-                <div
-                  className="relative w-full shrink-0 overflow-hidden bg-slate-100"
-                  style={{ height: "clamp(160px, 25vw, 240px)" }}
+                {course.emoji}
+              </span>
+              <div>
+                <span className={`text-xs font-bold tracking-widest uppercase ${course.icon} font-mono`}>
+                  {course.subtitle}
+                </span>
+                <h2
+                  className="text-2xl font-bold text-[#0f1f3d] mt-0.5"
+                  style={{ fontFamily: "Georgia,serif" }}
                 >
-                  {imgSrc ? (
-                    <Image
-                      src={imgSrc}
-                      alt={subject.title}
-                      fill
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      priority={i < 2}
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-slate-300 text-5xl">
-                      🧪
-                    </div>
-                  )}
+                  {course.title}
+                </h2>
+              </div>
+            </div>
 
-                  {/* Badge número */}
-                  <span className="absolute top-3 left-3 text-[11px] font-bold font-mono tracking-widest px-3 py-1 rounded-full bg-white/90 text-blue-600 shadow-sm backdrop-blur-sm">
-                    T{String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                {/* Texto */}
-                <div className="p-4 sm:p-6 flex flex-col gap-1 sm:gap-2">
-                  <h2
-                    className="text-base sm:text-lg font-bold text-[#0f1f3d] leading-snug group-hover:text-blue-600 transition-colors"
-                    style={{ fontFamily: "Georgia,serif" }}
-                  >
-                    {subject.title}
-                  </h2>
-                  {subject.description && (
-                    <p className="text-sm text-slate-500 leading-relaxed m-0">
-                      {subject.description}
-                    </p>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="text-center py-16 sm:py-20 rounded-2xl border border-dashed border-blue-200 text-slate-400">
-          <p className="text-5xl mb-4">⚗️</p>
-          <p className="font-semibold text-lg text-slate-500">
-            Contenido en preparación
-          </p>
-          <p className="text-sm mt-1">
-            El profesor está preparando los apuntes
-          </p>
-        </div>
-      )}
+            {/* Subjects list */}
+            <div className="px-6 py-4 flex-1 flex flex-col justify-between gap-4">
+              <ul className="space-y-2">
+                {course.subjects.map((s) => (
+                  <li key={s} className="flex items-center gap-2 text-sm text-slate-600">
+                    <span className={`w-1.5 h-1.5 rounded-full ${course.badge.replace("text-", "bg-").split(" ")[0]}`} />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <span className={`self-start text-xs font-semibold px-3 py-1.5 rounded-full ${course.badge} group-hover:opacity-80 transition-opacity`}>
+                Ver asignaturas →
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

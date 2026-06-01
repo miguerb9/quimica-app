@@ -8,7 +8,7 @@ export default async function EditExercisePage({ params }: Props) {
   const supabase = createClient()
   const [{ data: exercise }, { data: subjects }] = await Promise.all([
     supabase.from('exercises').select('*').eq('id', params.id).single(),
-    supabase.from('subjects').select('id, title').order('order_index'),
+    supabase.from('subjects').select('id, title, asignatura').order('order_index'),
   ])
 
   if (!exercise) notFound()

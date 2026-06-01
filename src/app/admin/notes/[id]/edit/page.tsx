@@ -8,7 +8,7 @@ export default async function EditNotePage({ params }: Props) {
   const supabase = createClient()
   const [{ data: note }, { data: subjects }] = await Promise.all([
     supabase.from('notes').select('*').eq('id', params.id).single(),
-    supabase.from('subjects').select('id, title').order('order_index'),
+    supabase.from('subjects').select('id, title, asignatura').order('order_index'),
   ])
 
   if (!note) notFound()

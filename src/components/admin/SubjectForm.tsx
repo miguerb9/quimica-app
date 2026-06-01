@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Subject } from '@/types'
+import type { Subject, Asignatura } from '@/types'
+import { ASIGNATURAS } from '@/types'
 
 interface Props { subject?: Subject }
 
@@ -19,10 +20,12 @@ export default function SubjectForm({ subject }: Props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
-    title: subject?.title ?? '',
-    slug: subject?.slug ?? '',
+    title:       subject?.title       ?? '',
+    slug:        subject?.slug        ?? '',
     description: subject?.description ?? '',
     order_index: subject?.order_index ?? 0,
+    course:      subject?.course      ?? '2bach',
+    asignatura:  subject?.asignatura  ?? 'quimica' as Asignatura,
   })
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,8 +52,10 @@ export default function SubjectForm({ subject }: Props) {
     })
 
     if (!res.ok) {
-      const data = await res.json()
-      setError(data.error ?? 'Error al guardar')
+      const text = await res.text()
+      let message = 'Error al guardar'
+      try { message = JSON.parse(text)?.error ?? message } catch {}
+      setError(message)
       setLoading(false)
       return
     }
@@ -92,6 +97,31 @@ export default function SubjectForm({ subject }: Props) {
           placeholder="Breve descripción del tema..."
         />
       </Field>
+
+      <div className="grid grid-cols-2 gap-4">
+        <Field label="Curso">
+          <select
+            value={form.course}
+            onChange={e => setForm(f => ({ ...f, course: e.target.value as '1bach' | '2bach' }))}
+            className="input"
+          >
+            <option value="1bach">1º Bachillerato</option>
+            <option value="2bach">2º Bachillerato</option>
+          </select>
+        </Field>
+
+        <Field label="Asignatura">
+          <select
+            value={form.asignatura}
+            onChange={e => setForm(f => ({ ...f, asignatura: e.target.value as Asignatura }))}
+            className="input"
+          >
+            {ASIGNATURAS.map(a => (
+              <option key={a.value} value={a.value}>{a.label}</option>
+            ))}
+          </select>
+        </Field>
+      </div>
 
       <Field label="Orden">
         <input

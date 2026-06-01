@@ -1,30 +1,57 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Note } from '@/types'
+import type { Note, Asignatura } from '@/types'
+import { ASIGNATURAS } from '@/types'
+
+interface SubjectOption {
+  id: string
+  title: string
+  asignatura: Asignatura
+}
 
 interface Props {
   note?: Note & { pdf_url?: string | null }
-  subjects: { id: string; title: string }[]
+  subjects: SubjectOption[]
 }
 
 export default function NoteForm({ note, subjects }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  // Determinar la asignatura inicial según el tema del apunte
+  const initialAsignatura: Asignatura =
+    subjects.find(s => s.id === note?.subject_id)?.asignatura ?? 'quimica'
+
+  const [selectedAsignatura, setSelectedAsignatura] = useState<Asignatura>(initialAsignatura)
+
+  // Filtrar temas según la asignatura seleccionada
+  const filteredSubjects = useMemo(
+    () => subjects.filter(s => s.asignatura === selectedAsignatura),
+    [subjects, selectedAsignatura]
+  )
+
   const [form, setForm] = useState({
-    subject_id: note?.subject_id ?? subjects[0]?.id ?? '',
-    title: note?.title ?? '',
-    content: note?.content ?? '',
+    subject_id: note?.subject_id ?? filteredSubjects[0]?.id ?? '',
+    title:      note?.title      ?? '',
+    content:    note?.content    ?? '',
     order_index: note?.order_index ?? 0,
-    published: note?.published ?? false,
+    published:  note?.published  ?? false,
   })
 
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [pdfUrl, setPdfUrl] = useState<string | null>(note?.pdf_url ?? null)
   const [pdfLoading, setPdfLoading] = useState(false)
   const [savedNoteId, setSavedNoteId] = useState<string | null>(note?.id ?? null)
+
+  // Cuando cambia la asignatura, resetear el tema al primero disponible
+  function handleAsignaturaChange(asignatura: Asignatura) {
+    setSelectedAsignatura(asignatura)
+    const newSubjects = subjects.filter(s => s.asignatura === asignatura)
+    setForm(f => ({ ...f, subject_id: newSubjects[0]?.id ?? '' }))
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -87,29 +114,74 @@ export default function NoteForm({ note, subjects }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
+      {/* Fila: Asignatura + Tema */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-ink mb-1.5">Tema</label>
-          <select required value={form.subject_id} onChange={e => setForm(f => ({ ...f, subject_id: e.target.value }))} className="input">
-            {subjects.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+          <label className="block text-sm font-medium text-ink mb-1.5">Asignatura</label>
+          <select
+            value={selectedAsignatura}
+            onChange={e => handleAsignaturaChange(e.target.value as Asignatura)}
+            className="input"
+          >
+            {ASIGNATURAS.map(a => (
+              <option key={a.value} value={a.value}>{a.label}</option>
+            ))}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-ink mb-1.5">Orden</label>
-          <input type="number" min={0} value={form.order_index} onChange={e => setForm(f => ({ ...f, order_index: Number(e.target.value) }))} className="input" />
+          <label className="block text-sm font-medium text-ink mb-1.5">Tema</label>
+          <select
+            required
+            value={form.subject_id}
+            onChange={e => setForm(f => ({ ...f, subject_id: e.target.value }))}
+            className="input"
+            disabled={filteredSubjects.length === 0}
+          >
+            {filteredSubjects.length === 0
+              ? <option value="">— Sin temas en esta asignatura —</option>
+              : filteredSubjects.map(s => <option key={s.id} value={s.id}>{s.title}</option>)
+            }
+          </select>
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-ink mb-1.5">Título</label>
-        <input type="text" required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="input" placeholder="Ej: El modelo atómico de Bohr" />
+      {/* Fila: Título + Orden */}
+      <div className="grid grid-cols-[1fr_auto] gap-4 items-end">
+        <div>
+          <label className="block text-sm font-medium text-ink mb-1.5">Título</label>
+          <input
+            type="text"
+            required
+            value={form.title}
+            onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+            className="input"
+            placeholder="Ej: El modelo atómico de Bohr"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-ink mb-1.5">Orden</label>
+          <input
+            type="number"
+            min={0}
+            value={form.order_index}
+            onChange={e => setForm(f => ({ ...f, order_index: Number(e.target.value) }))}
+            className="input w-24"
+          />
+        </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-ink mb-1.5">
           Contenido <span className="text-muted font-normal text-xs">(HTML — h2, p, ul, table...)</span>
         </label>
-        <textarea required rows={12} value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} className="input font-mono text-sm resize-y" placeholder="<h2>Introducción</h2><p>El modelo atómico...</p>" />
+        <textarea
+          required
+          rows={12}
+          value={form.content}
+          onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
+          className="input font-mono text-sm resize-y"
+          placeholder="<h2>Introducción</h2><p>El modelo atómico...</p>"
+        />
       </div>
 
       {/* PDF */}
@@ -143,7 +215,13 @@ export default function NoteForm({ note, subjects }: Props) {
       </div>
 
       <div className="flex items-center gap-2">
-        <input type="checkbox" id="published" checked={form.published} onChange={e => setForm(f => ({ ...f, published: e.target.checked }))} className="w-4 h-4 accent-accent" />
+        <input
+          type="checkbox"
+          id="published"
+          checked={form.published}
+          onChange={e => setForm(f => ({ ...f, published: e.target.checked }))}
+          className="w-4 h-4 accent-accent"
+        />
         <label htmlFor="published" className="text-sm font-medium text-ink">Publicado (visible para alumnos)</label>
       </div>
 
