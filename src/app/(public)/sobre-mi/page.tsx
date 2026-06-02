@@ -189,8 +189,9 @@ export default function SobreMiPage() {
               boxShadow: "0 4px 12px rgba(37, 99, 235, 0.15)",
             }}
           >
+            {/* Pequeño icono de flecha direccional minimalista - Corregido flexShrink */}
             <svg
-              style={{ width: "16px", height: "16px", shrink: 0 }}
+              style={{ width: "16px", height: "16px", flexShrink: 0 }}
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="2"
