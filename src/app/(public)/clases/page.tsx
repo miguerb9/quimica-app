@@ -305,9 +305,9 @@ export default function ClasesPage() {
               transition: "transform 0.2s ease, background 0.2s ease",
             }}
           >
-            {/* Icono de sobre postal clásico de email */}
+            {/* Icono de sobre postal clásico de email - Corregido para Vercel */}
             <svg
-              style={{ width: "20px", height: "20px", shrink: 0 }}
+              style={{ width: "20px", height: "20px", flexShrink: 0 }}
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
