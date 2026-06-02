@@ -6,47 +6,108 @@ export default function Bach1Page() {
   return (
     <div>
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-slate-400 mb-8">
-        <Link href="/" className="hover:text-slate-700 transition-colors">Inicio</Link>
-        <span>/</span>
-        <span className="text-slate-700 font-medium">1º Bachillerato</span>
+      <nav className="flex items-center gap-2 text-sm text-slate-400 mb-8 font-medium">
+        <Link
+          href="/"
+          className="hover:text-slate-600 transition-colors no-underline"
+        >
+          Inicio
+        </Link>
+        <span className="text-slate-300">/</span>
+        <span className="text-slate-600">1º Bachillerato</span>
       </nav>
 
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 font-bold text-sm shrink-0">1º</span>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#0f1f3d]" style={{ fontFamily: "Georgia,serif" }}>
-            1º Bachillerato
-          </h1>
-        </div>
-        <p className="text-slate-500 ml-12">Selecciona una asignatura</p>
-        <div className="mt-4 h-px bg-slate-200" />
+      {/* Header de la sección (Corregido el doble "1º") */}
+      <div className="mb-10">
+        <h1
+          className="text-2xl sm:text-3xl font-bold text-[#0f1f3d] mb-2"
+          style={{ fontFamily: "Georgia,serif" }}
+        >
+          1º Bachillerato
+        </h1>
+        <p className="text-slate-500 text-sm sm:text-base">
+          Selecciona una asignatura para explorar sus contenidos
+        </p>
+        <div className="mt-5 h-px bg-slate-200" />
       </div>
 
+      {/* Grid de asignaturas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
         <Link
           href="/1bach/matematicas-aplicadas-ccss"
-          className="group flex flex-col rounded-2xl overflow-hidden bg-white border-2 border-emerald-200 hover:border-emerald-400 shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-200 no-underline"
+          className="group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-slate-200/80 p-6 transition-all duration-300 no-underline hover:border-emerald-500 hover:shadow-xl hover:shadow-slate-100"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, #ffffff 75%, #f0fdf4 100%)",
+          }}
         >
-          <div className="bg-emerald-50 px-6 pt-8 pb-6 flex flex-col items-start gap-3">
-            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white shadow-sm text-3xl">📐</span>
-            <div>
-              <span className="text-xs font-bold tracking-widest uppercase text-emerald-600 font-mono">Ciencias Sociales</span>
-              <h2 className="text-2xl font-bold text-[#0f1f3d] mt-0.5" style={{ fontFamily: "Georgia,serif" }}>Matemáticas Aplicadas</h2>
-            </div>
+          {/* Icono SVG de autor: Sin caja contenedora. 
+            Grande, sutil, elegante y colocado arriba a la derecha de forma orgánica.
+          */}
+          <div className="absolute right-6 top-6 text-emerald-600/20 transition-all duration-500 group-hover:scale-110 group-hover:text-emerald-500/30">
+            <svg
+              className="w-12 h-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5" /* Trazo fino estilo premium */
+              stroke="currentColor"
+            >
+              {/* Representación abstracta/geométrica de ejes cartesianos y una parábola */}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 12h18M12 3v18"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 7c3 0 4 10 6 10s3-10 6-10"
+              />
+            </svg>
           </div>
-          <div className="px-6 py-4 flex flex-col gap-4">
-            <ul className="space-y-2">
-              {["Álgebra", "Análisis y funciones", "Estadística", "Probabilidad", "Geometría…"].map(s => (
-                <li key={s} className="flex items-center gap-2 text-sm text-slate-600">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-300" />
+
+          <div className="relative z-10 flex flex-col gap-5 flex-grow">
+            {/* Header de la tarjeta */}
+            <div>
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-emerald-600 font-mono block mb-1">
+                Ciencias Sociales
+              </span>
+              <h2
+                className="text-xl font-bold text-[#0f1f3d] pr-14 leading-snug"
+                style={{ fontFamily: "Georgia,serif" }}
+              >
+                Matemáticas Aplicadas
+              </h2>
+            </div>
+
+            <div className="h-px bg-slate-100" />
+
+            {/* Listado de bloques */}
+            <ul className="space-y-2 flex-grow">
+              {[
+                "Álgebra",
+                "Análisis y funciones",
+                "Estadística",
+                "Probabilidad",
+                "Geometría…",
+              ].map((s) => (
+                <li
+                  key={s}
+                  className="flex items-center gap-2.5 text-sm text-slate-600"
+                >
+                  <span className="w-1.5 h-[1.5px] bg-slate-300 transition-colors duration-300 group-hover:bg-emerald-400 shrink-0" />
                   {s}
                 </li>
               ))}
             </ul>
-            <span className="self-start text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700">
-              Ver temario →
-            </span>
+
+            {/* CTA */}
+            <div className="pt-2 flex items-center">
+              <span className="relative text-xs font-bold tracking-wider uppercase text-slate-500 pb-0.5 group-hover:text-slate-900 transition-colors duration-300">
+                Ver temario →
+                <span className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-emerald-500 transition-all duration-300 group-hover:w-full" />
+              </span>
+            </div>
           </div>
         </Link>
       </div>

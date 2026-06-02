@@ -39,7 +39,7 @@ export default function SobreMiPage() {
       <main
         style={{ display: "grid", gridTemplateColumns: "1fr", gap: "40px" }}
       >
-        {/* Sección de Identidad - Sin la tarjeta genérica */}
+        {/* Sección de Identidad - Con Iconografía de Autor */}
         <section
           style={{
             display: "flex",
@@ -52,17 +52,34 @@ export default function SobreMiPage() {
             style={{
               width: "100px",
               height: "100px",
-              borderRadius: "16px", // Cuadrado redondeado es menos "IA" que el círculo perfecto
-              background: "#f1f5f9",
+              borderRadius: "16px",
+              background: "#f8fafc",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "40px",
               border: "1px solid #e2e8f0",
               flexShrink: 0,
             }}
           >
-            🧪
+            {/* Gráfico de Autor: Bitácora de laboratorio editorial con trazo fino */}
+            <svg
+              style={{ width: "42px", height: "42px", display: "block" }}
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.2"
+              stroke="currentColor"
+            >
+              {/* Cuerpo del cuaderno/registro científico */}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                stroke="#2563eb"
+              />
+              {/* Líneas sutiles de anotación técnica */}
+              <path strokeLinecap="round" d="M15 8h3m-3 3h2" stroke="#94a3b8" />
+              <path strokeLinecap="round" d="M9 8H6m3 3H7" stroke="#94a3b8" />
+            </svg>
           </div>
 
           <div style={{ flex: 1, minWidth: "300px" }}>
@@ -136,7 +153,7 @@ export default function SobreMiPage() {
           style={{
             marginTop: "40px",
             padding: "40px",
-            background: "#0f1f3d", // Azul muy oscuro para contraste fuerte
+            background: "#0f1f3d",
             borderRadius: "12px",
             color: "white",
             textAlign: "center",
@@ -157,17 +174,34 @@ export default function SobreMiPage() {
           <a
             href="/clases"
             style={{
-              display: "inline-block",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
               background: "#2563eb",
               color: "white",
               textDecoration: "none",
               fontWeight: 600,
               fontSize: "16px",
               padding: "14px 32px",
-              borderRadius: "6px", // Bordes menos redondeados para un look más serio
-              transition: "background 0.2s",
+              borderRadius: "6px",
+              transition: "transform 0.2s ease, background 0.2s ease",
+              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.15)",
             }}
           >
+            <svg
+              style={{ width: "16px", height: "16px", shrink: 0 }}
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              />
+            </svg>
             Reservar clase online
           </a>
         </footer>

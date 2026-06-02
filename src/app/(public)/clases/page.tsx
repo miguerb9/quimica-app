@@ -44,24 +44,126 @@ export default function ClasesPage() {
         }}
       >
         {[
-          { icon: "🎯", label: "Personalizado", desc: "A tu ritmo y nivel" },
-          { icon: "💻", label: "100% Online", desc: "Desde cualquier lugar" },
-          { icon: "📋", label: "Material", desc: "Ejercicios incluidos" },
+          {
+            label: "Personalizado",
+            desc: "A tu ritmo y nivel",
+            icon: (
+              <svg
+                style={{
+                  width: "34px",
+                  height: "34px",
+                  margin: "0 auto 14px",
+                  display: "block",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.2"
+                stroke="currentColor"
+              >
+                {/* Enfoque/Diana de precisión abstracta con ejes externos */}
+                <circle cx="12" cy="12" r="7" stroke="#2563eb" />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="2"
+                  stroke="#94a3b8"
+                  fill="#94a3b8"
+                  style={{ opacity: 0.5 }}
+                />
+                <path
+                  strokeLinecap="round"
+                  d="M12 2v3m0 14v3M2 12h3m14 0h3"
+                  stroke="#2563eb"
+                />
+              </svg>
+            ),
+          },
+          {
+            label: "100% Online",
+            desc: "Desde cualquier lugar",
+            icon: (
+              <svg
+                style={{
+                  width: "34px",
+                  height: "34px",
+                  margin: "0 auto 14px",
+                  display: "block",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.2"
+                stroke="currentColor"
+              >
+                {/* Espacio de trabajo/Red global con nodos flotantes */}
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="12"
+                  rx="1.5"
+                  stroke="#2563eb"
+                />
+                <path
+                  strokeLinecap="round"
+                  d="M9 20h6m-3-4v4"
+                  stroke="#2563eb"
+                />
+                <circle cx="12" cy="10" r="1.5" stroke="#94a3b8" />
+                <path
+                  strokeLinecap="round"
+                  d="M8 10h1m4 0h1"
+                  stroke="#94a3b8"
+                />
+              </svg>
+            ),
+          },
+          {
+            label: "Material",
+            desc: "Ejercicios incluidos",
+            icon: (
+              <svg
+                style={{
+                  width: "34px",
+                  height: "34px",
+                  margin: "0 auto 14px",
+                  display: "block",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.2"
+                stroke="currentColor"
+              >
+                {/* Cuaderno de laboratorio con guías de diseño isométricas */}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
+                  stroke="#2563eb"
+                />
+                <path
+                  strokeLinecap="round"
+                  d="M8 7h8m-8 4h8m-8 4h5"
+                  stroke="#94a3b8"
+                />
+              </svg>
+            ),
+          },
         ].map((item) => (
           <div
             key={item.label}
+            className="group"
             style={{
-              flex: "1 1 200px", // Esto hace que sea responsive automáticamente
-              padding: "24px",
+              flex: "1 1 200px",
+              padding: "28px 24px",
               background: "#f8fafc",
               border: "1px solid #e2e8f0",
-              borderRadius: "12px",
+              borderRadius: "14px",
               textAlign: "center",
+              cursor: "default",
+              transition: "all 0.3s ease",
             }}
           >
-            <div style={{ fontSize: "32px", marginBottom: "12px" }}>
-              {item.icon}
-            </div>
+            {item.icon}
             <div
               style={{
                 fontWeight: 700,
@@ -184,23 +286,49 @@ export default function ClasesPage() {
           <a
             href="mailto:contacto.mrclases@gmail.com?subject=Consulta%20sobre%20clases%20online"
             style={{
-              display: "inline-block",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "12px",
               background: "#2563eb",
               color: "white",
               textDecoration: "none",
               fontWeight: 600,
-              fontSize: "clamp(14px, 4vw, 18px)",
-              padding: "16px 32px",
+              fontSize: "clamp(14px, 4vw, 17px)",
+              padding: "16px 36px",
               borderRadius: "8px",
               marginBottom: "20px",
               fontFamily: "system-ui, sans-serif",
               wordBreak: "break-all",
               maxWidth: "100%",
+              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.2)",
+              transition: "transform 0.2s ease, background 0.2s ease",
             }}
           >
-            ✉️ contacto.mrclases@gmail.com
+            {/* Icono de sobre postal clásico de email */}
+            <svg
+              style={{ width: "20px", height: "20px", shrink: 0 }}
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+              />
+            </svg>
+            contacto.mrclases@gmail.com
           </a>
-          <p style={{ fontSize: "14px", opacity: 0.7, lineHeight: 1.5 }}>
+          <p
+            style={{
+              fontSize: "14px",
+              opacity: 0.7,
+              lineHeight: 1.5,
+              margin: 0,
+            }}
+          >
             Responderé a tu correo lo antes posible para <br /> agendar nuestra
             primera sesión.
           </p>
